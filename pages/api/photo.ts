@@ -62,7 +62,8 @@ export default function handler(req:NextApiRequest, res:NextApiResponse) {
 
     fs.writeFile(imagePath, imageBuffer, (err) => {
       if(err) {
-        res.status(500).json({message: 'Error uploafing image'});
+        console.error('Error uploading image:', err);
+        res.status(500).json({message: 'Error uploading image'});
       } else {
         const newPhoto: Photo = {
           id: Date.now().toString(),
