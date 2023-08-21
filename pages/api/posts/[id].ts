@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { posts, Post } from '../../data/posts'
+import { posts, Post } from './postdata'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;

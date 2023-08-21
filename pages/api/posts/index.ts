@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { posts, Post, Comment } from '../../data/posts'
+import { posts, Post, Comment } from './postdata'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
