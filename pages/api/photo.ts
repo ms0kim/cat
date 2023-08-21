@@ -54,29 +54,30 @@ const photos: Photo[] = [
 export default function handler(req:NextApiRequest, res:NextApiResponse) {
   if(req.method === 'GET'){
     res.status(200).json(photos);
-  } else if(req.method === 'POST'){
-    const {title, image, extension} = req.body;
-    const imageBuffer = Buffer.from(image, 'base64');
-    const imageFileName = `${Date.now()}.${extension}`;
-    const imagePath = path.join(process.cwd(), 'public', 'uploads', imageFileName);
-
-    fs.writeFile(imagePath, imageBuffer, (err) => {
-      if(err) {
-        res.status(500).json({message: 'Error uploafing image'});
-      } else {
-        const newPhoto: Photo = {
-          id: Date.now().toString(),
-          title: title,
-          img: `/uploads/${imageFileName}`,
-        };
-
-        photos.unshift(newPhoto); //최근 등록순
-        res.status(201).json(newPhoto);
-      }
-    });
-  } else {
-    res.status(405).json({message: 'Method not allowed'});
   }
+  // } else if(req.method === 'POST'){
+  //   const {title, image, extension} = req.body;
+  //   const imageBuffer = Buffer.from(image, 'base64');
+  //   const imageFileName = `${Date.now()}.${extension}`;
+  //   const imagePath = path.join(process.cwd(), 'public', 'uploads', imageFileName);
 
-  res.status(200).json(photos);
+  //   fs.writeFile(imagePath, imageBuffer, (err) => {
+  //     if(err) {
+  //       res.status(500).json({message: 'Error uploafing image'});
+  //     } else {
+  //       const newPhoto: Photo = {
+  //         id: Date.now().toString(),
+  //         title: title,
+  //         img: `/uploads/${imageFileName}`,
+  //       };
+
+  //       photos.unshift(newPhoto); //최근 등록순
+  //       res.status(201).json(newPhoto);
+  //     }
+  //   });
+  // } else {
+  //   res.status(405).json({message: 'Method not allowed'});
+  // }
+
+  // res.status(200).json(photos);
 }
