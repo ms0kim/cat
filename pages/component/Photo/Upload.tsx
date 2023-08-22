@@ -34,34 +34,33 @@ export default function Upload({modal, setModal}: Modal) {
   }
 
   const imgUpload = async () => {
-    alert('이미지 업로드 준비중입니다');
-    // if(!uploadFile || !title){
-    //   alert('이미지와 제목을 입력해주세요');
-    //   return;
-    // }
+    if(!uploadFile || !title){
+      alert('이미지와 제목을 입력해주세요');
+      return;
+    }
 
-    // const formData = new FormData();
-    // formData.append('file', uploadFile); //이미지 URL 추가
-    // formData.append('title', title);
+    const formData = new FormData();
+    formData.append('file', uploadFile); //이미지 URL 추가
+    formData.append('title', title);
 
-    // fetch('/api/photo', {
-    //   method: 'POST',
-    //   body: formData,
-    // })
-    // .then((res) => {
-    //   if(res.ok){
-    //     alert('이미지 업로드가 완료되었습니다');
-    //     setUploadFile(null);
-    //     setTitle('');
-    //     setFile('이미지를 첨부해주세요');
-    //     setModal(false);
-    //   } else{
-    //     alert('이미지 업로드 준비중입니다')
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.error('업로드 오류:', err)
-    // })
+    fetch('/api/photo', {
+      method: 'POST',
+      body: formData,
+    })
+    .then((res) => {
+      if(res.ok){
+        alert('이미지 업로드가 완료되었습니다');
+        setUploadFile(null);
+        setTitle('');
+        setFile('이미지를 첨부해주세요');
+        setModal(false);
+      } else{
+        alert('이미지 업로드 준비중입니다')
+      }
+    })
+    .catch((err) => {
+      console.error('업로드 오류:', err)
+    })
   }
 
   const modalClose = () => {
