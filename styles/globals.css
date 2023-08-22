@@ -748,7 +748,7 @@ a {
 }
 .itemcon > div .btns {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .itemcon > div .btns button {
   margin-left: 10px;
@@ -1313,7 +1313,7 @@ a {
 .upload .modal .pop .btns {
   margin-top: 20px;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .upload .modal .pop .btns button {
   padding: 15px 25px;

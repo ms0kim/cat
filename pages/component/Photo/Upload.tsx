@@ -14,6 +14,7 @@ type Modal = {
 export default function Upload({modal, setModal}: Modal) {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
+  const [file, setFile] = useState('이미지를 첨부해주세요');
 
   const fileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(e.target.files && e.target.files[0]){
@@ -24,6 +25,7 @@ export default function Upload({modal, setModal}: Modal) {
         img: URL.createObjectURL(file), //파일 경로를 사용하여 이미지 URL 생성
       }
       setUploadFile(file);
+      setFile(file.name); // 파일 이름 설정
     }
   };
 
@@ -32,32 +34,33 @@ export default function Upload({modal, setModal}: Modal) {
   }
 
   const imgUpload = async () => {
-    alert('이미지 업로드 준비중입니다');
-    // if(!uploadFile || !title){
-    //   alert('이미지와 제목을 입력해주세요');
-    //   return;
-    // }
+    if(!uploadFile || !title){
+      alert('이미지와 제목을 입력해주세요');
+      return;
+    }
 
-    // const formData = new FormData();
-    // formData.append('file', uploadFile); //이미지 URL 추가
-    // formData.append('title', title);
+    const formData = new FormData();
+    formData.append('file', uploadFile); //이미지 URL 추가
+    formData.append('title', title);
 
-    // fetch('/api/photo', {
-    //   method: 'POST',
-    //   body: formData,
-    // })
-    // .then((res) => {
-    //   if(res.ok){
-    //     alert('이미지 업로드가 완료되었습니다');
-    //     setUploadFile(null);
-    //     setTitle('');
-    //   } else{
-    //     alert('이미지 업로드 준비중입니다')
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.error('업로드 오류:', err)
-    // })
+    fetch('/api/photo', {
+      method: 'POST',
+      body: formData,
+    })
+    .then((res) => {
+      if(res.ok){
+        alert('이미지 업로드가 완료되었습니다');
+        setUploadFile(null);
+        setTitle('');
+        setFile('이미지를 첨부해주세요');
+        setModal(false);
+      } else{
+        alert('이미지 업로드 준비중입니다')
+      }
+    })
+    .catch((err) => {
+      console.error('업로드 오류:', err)
+    })
   }
 
   const modalClose = () => {
@@ -66,18 +69,14 @@ export default function Upload({modal, setModal}: Modal) {
     setFile('이미지를 첨부해주세요');
   }
 
-  const [file, setFile] = useState('이미지를 첨부해주세요');
-  const fileName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.value);
-  }
-
   return (
     <div className={`upload ${modal ? '' : 'lock'}`}>
       <div className="back"></div>
       <div className="modal">
         <div className="pop">
           <div className="first">
-            <input className="file" placeholder="이미지를 첨부해주세요" value={file} />
+            <input className="file" placeholder="이미지를 첨부해주세요" defaultValue={file} /> 
+            {/* defaultValue으로 초기값 설정해주기 onchange가 없기 때문? */}
             <label htmlFor="file">이미지 찾기</label>
             <input 
               type="file" 
@@ -85,7 +84,6 @@ export default function Upload({modal, setModal}: Modal) {
               accept="image/*" 
               onChange={(e) => {
                 fileChange(e);
-                fileName(e);
               }} 
             />
           </div>
