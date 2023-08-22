@@ -58,7 +58,7 @@ export default function handler(req:NextApiRequest, res:NextApiResponse) {
     const {title, image, extension} = req.body;
     const imageBuffer = Buffer.from(image, 'base64');
     const imageFileName = `${Date.now()}.${extension}`;
-    const imagePath = path.join(process.cwd(), 'public', 'uploads', imageFileName);
+    const imagePath = path.join('/vercel/path0', 'public', 'uploads', imageFileName);
 
     fs.writeFile(imagePath, imageBuffer, (err) => {
       if(err) {
