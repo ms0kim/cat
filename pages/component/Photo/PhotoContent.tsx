@@ -16,7 +16,12 @@ export default function PhotoContent({modal, setModal}: Modal) {
 
   useEffect(() => {
     fetch('/api/photo')
-    .then((res) => res.json())
+    .then((res) => {
+      if(!res.ok) {
+        throw new Error('API request failed');
+      }
+      return res.json();
+    })
     .then((data) => {
       setPhoto(data)
     })
